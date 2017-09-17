@@ -8,8 +8,10 @@ Developers:
 
 3. Go to URL `chrome://extensions/` or just open up the extension landing page via the toolbar
 
-4. Click load unpacked extension
+4. Check Developer Mode 
 
-5. Select the directory that contains the project
+5. Click load unpacked extension
 
-6. Open a new tab
+6. Select the directory that contains the project
+
+7. Open a new tab

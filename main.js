@@ -48,22 +48,18 @@ function bootStrap() {
 		populate: true
 	}, function(currentWindow) {
 		currentWindowId = currentWindow.id;
-		var tabs = currentWindow.tabs;
-
-		// loader.load(fontDirectory, function(font) {
+		var tabs = currentWindow.tabs;		
 		fontPromise.then((font) => {
 			for (var i = 0; i < tabs.length; i++) {
 				var tab = tabs[i];
 				createTab(tab, (textMesh) => {
-					textMesh.translateY(getRandomInt(-50, 50));
+					textMesh.translateY(getRandomInt(-30, 30));
 					scene.add(textMesh);
 				}, {
 					font: font
 				});
 			}
 		})
-
-		// });
 
 	});
 }
