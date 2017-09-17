@@ -1,2 +1,2 @@
 # slipstream
-first commit
+TODO: how to install

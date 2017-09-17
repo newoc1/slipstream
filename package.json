@@ -1,0 +1,22 @@
+{
+  "name": "slipstream",
+  "version": "1.0.0",
+  "description": "webgl browser extension",
+  "main": "none",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/newoc1/slipstream.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/newoc1/slipstream/issues"
+  },
+  "homepage": "https://github.com/newoc1/slipstream#readme",
+  "dependencies": {
+    "three": "^0.87.1"
+  }
+}
