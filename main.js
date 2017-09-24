@@ -14,6 +14,8 @@ function bootStrap() {
 	function init() {
 		scene = new THREE.Scene();
 		camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 1000);
+		
+		
 
 		scene.background = new THREE.Color(0x0A2E2E);
 		renderer = new THREE.WebGLRenderer({
@@ -22,10 +24,15 @@ function bootStrap() {
 		renderer.setSize(window.innerWidth, window.innerHeight);
 		document.body.appendChild(renderer.domElement);
 
+		//Add OrbitControls so we can pan around with the mouse
+		controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+
 		function animate() {
 			requestAnimationFrame(animate);
 			separateTabs(tabObjects,0.7);
 			renderer.render(scene, camera);
+			controls.update();
 		}
 		camera.position.z = 350;
 		camera.position.y = 50
@@ -47,6 +54,7 @@ function bootStrap() {
 
 			animate();
 		});
+		
 	} // end init
 
 }
