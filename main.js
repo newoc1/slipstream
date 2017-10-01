@@ -1,4 +1,4 @@
-tabs = {};
+currentTabs = {};
 tabIds = [];
 focusedWindowId = undefined;
 currentWindowId = undefined;
@@ -16,17 +16,25 @@ function bootStrap() {
 		camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 1000);
 		
 		
-
+		var mouse = new THREE.Vector2();
+		var raycaster = new THREE.Raycaster();
 		scene.background = new THREE.Color(0x0A2E2E);
 		renderer = new THREE.WebGLRenderer({
-			antialias: false
+			antialias: true
 		});
 		renderer.setSize(window.innerWidth, window.innerHeight);
+
+
+
 		document.body.appendChild(renderer.domElement);
+
 
 		//Add OrbitControls so we can pan around with the mouse
 		controls = new THREE.OrbitControls(camera, renderer.domElement);
 
+		document.addEventListener('mouseup', function(event) {
+			onDocumentMouseUp(event, renderer,raycaster,mouse,camera,scene);
+		}, false);
 
 		function animate() {
 			requestAnimationFrame(animate);
@@ -43,9 +51,10 @@ function bootStrap() {
 			currentWindowId = currentWindow.id;
 			var tabs = currentWindow.tabs;
 			for (var i = 0; i < tabs.length; i++) {
-				var tab = tabs[i];
+				var tab = tabs[i];				
 				createTab(tab, (textMesh) => {					
 					tabObjects.push(textMesh)
+					currentTabs[textMesh.uuid] = tab;
 					scene.add(textMesh);
 				}, {
 
@@ -57,6 +66,19 @@ function bootStrap() {
 		
 	} // end init
 
+}
+
+
+function onDocumentMouseUp( event,renderer,raycaster,mouse ,camera,scene ) {
+	event.preventDefault();
+	mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
+	mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
+	raycaster.setFromCamera( mouse, camera );
+	var intersects = raycaster.intersectObjects( scene.children ,true);	
+	if ( intersects.length > 0 ) {			
+		var tabClicked = currentTabs[intersects[0].object.parent.uuid]		
+		chrome.tabs.update(tabClicked.id, {selected:true});
+	}
 }
 
 // Uses bounding boxes to determine intersection with other tab objects.
@@ -92,7 +114,7 @@ function getRandomInt(min, max) {
 }
 
 
-//generate a PlaneGeometry Mesh based off of tab properties (notabley title and url)
+//generate a PlaneGeometry Mesh based off of tab properties (notably title and url)
 function createTab(tab, callback, options) {
 	var canvas = document.createElement('canvas');
 	var ctx = canvas.getContext('2d');
